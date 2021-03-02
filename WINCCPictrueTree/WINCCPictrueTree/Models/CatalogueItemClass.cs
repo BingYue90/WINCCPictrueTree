@@ -33,26 +33,30 @@ namespace WINCCPictrueTree.Models
                 Children = new ObservableCollection<CatalogueItemClass>()
             });
             var fileInfos = dir.GetFiles("*.pdl", SearchOption.TopDirectoryOnly);
-            if(fileInfos.Length == 0)
+            if (fileInfos.Length == 0)
             {
-                DirectoryInfo nDir = new DirectoryInfo(@"F:\C#调试相关\项目\GraCS");
-                
-                fileInfos = nDir.GetFiles("*.pdl", SearchOption.TopDirectoryOnly);
-            }
-            foreach (FileInfo fileInfo in fileInfos)
-            {
-                nodes[0].Children.Add(new CatalogueItemClass()
+                for (int i = 0; i < 10; i++)
                 {
+                    nodes[0].Children.Add(new CatalogueItemClass() { Name = $"NewPDL{i}.pdl", PictrueName = $"NewPDL{i}.pdl", Children = new ObservableCollection<CatalogueItemClass>() }
+                }
+
+            }
+            else
+            {
+                foreach (FileInfo fileInfo in fileInfos)
+                {
+                    nodes[0].Children.Add(new CatalogueItemClass()
+                    {
                         Name = fileInfo.Name,
                         PictrueName = fileInfo.Name
-                });
+                    });
+                }
             }
             try
             {
                 using (FileStream stream = File.OpenRead(file))
                 {
                     var serializer = new XmlSerializer(typeof(ObservableCollection<CatalogueItemClass>));
-                    //return (List<Node>)serializer.Deserialize(stream);
                     var children = nodes[0].Children;
                     foreach (var item in (ObservableCollection<CatalogueItemClass>)serializer.Deserialize(stream))
                     {
@@ -70,7 +74,6 @@ namespace WINCCPictrueTree.Models
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                //return nodes;
             }
             return nodes;
         }
