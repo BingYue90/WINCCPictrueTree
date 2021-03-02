@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="WINCCPictrueTree.CatalogueControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WINCCPictrueTree" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/WPFCatalogueControl;component/Resources/Style.xaml"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Name="ToolBox">
+            <MenuItem Header="编辑" Click="Edit_Click"/>
+            <MenuItem Header="移动" Click="Move_Click"/>
+            <MenuItem Header="保存" Click="Save_Click"/>
+        </Menu>
+        <ListBox Grid.Row="1" x:Name="listBox" ItemContainerStyle="{StaticResource ListBoxItemStyle1}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Expander MaxHeight="{Binding ActualHeight, ElementName=listBox}" AllowDrop="True" Drop="Expander_Drop">
+                        <Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding Name}" VerticalAlignment="Center"/>
+                                <TextBox Text="{Binding Name}" VerticalAlignment="Center"
+                                         Visibility="{Binding Edit, Converter={StaticResource Bool_VisibilityConvertor}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CatalogueControl}}}"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                            <Setter Property="Width" Value="20"/>
+                                            <Setter Property="Height" Value="20"/>
+                                            <Setter Property="Margin" Value="0, 5"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <Button Click="Add_Click">
+                                        <Button.Content>
+                                            <Image Source="/WPFCatalogueControl;component/Images/Add_16x16.png" />
+                                        </Button.Content>
+                                    </Button>
+                                    <Button Click="Remove_Click">
+                                        <Button.Content>
+                                            <Image Source="/WPFCatalogueControl;component/Images/Delete_16x16.png" />
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Expander.Header>
+                        <ListBox ItemsSource="{Binding Children}" PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown" ItemContainerStyle="{StaticResource ListBoxItemStyle1}" SelectionChanged="ListBox_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Label Content="{Binding Name}" ToolTip="{Binding PictrueName}"/>
+                                        <TextBox Text="{Binding Name}" VerticalAlignment="Center" ToolTip="{Binding PictrueName}"
+                                         Visibility="{Binding Edit, Converter={StaticResource Bool_VisibilityConvertor}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CatalogueControl}}}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Expander>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
