@@ -37,9 +37,8 @@ namespace WINCCPictrueTree.Models
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    nodes[0].Children.Add(new CatalogueItemClass() { Name = $"NewPDL{i}.pdl", PictrueName = $"NewPDL{i}.pdl", Children = new ObservableCollection<CatalogueItemClass>() }
+                    nodes[0].Children.Add(new CatalogueItemClass() { Name = $"NewPDL{i}.pdl", PictrueName = $"NewPDL{i}.pdl"});
                 }
-
             }
             else
             {
